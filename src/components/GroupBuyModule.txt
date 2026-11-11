@@ -1,0 +1,43 @@
+import React, { useState } from 'react';
+
+export default function GroupBuyModule({ standardPrice, groupPrice, groupTarget = 5 }) {
+  const [participants, setParticipants] = useState(2);
+
+  const discount = Math.round(((standardPrice - groupPrice) / standardPrice) * 100);
+
+  return (
+    <div className="bg-gradient-to-r from-orange-50 to-amber-50 p-4 rounded-xl border border-orange-200 my-4">
+      <div className="flex justify-between items-start mb-2">
+        <div>
+          <span className="bg-orange-600 text-white text-xs font-extrabold px-2 py-0.5 rounded">
+            - {discount}% ACHAT GROUPÉ
+          </span>
+          <h4 className="font-bold text-gray-900 mt-1">Rejoindre une session d'achat groupé</h4>
+        </div>
+        <div className="text-right">
+          <span className="text-sm line-through text-gray-400">{standardPrice} FCFA</span>
+          <p className="text-xl font-black text-orange-600">{groupPrice} FCFA</p>
+        </div>
+      </div>
+
+      {/* Barre de progression */}
+      <div className="w-full bg-gray-200 rounded-full h-2.5 my-3">
+        <div 
+          className="bg-orange-500 h-2.5 rounded-full transition-all duration-300"
+          style={{ width: `${(participants / groupTarget) * 100}%` }}
+        ></div>
+      </div>
+
+      <p className="text-xs text-gray-600 mb-3">
+        Plus que <strong>{groupTarget - participants} acheteurs</strong> nécessaires pour débloquer ce tarif réduit !
+      </p>
+
+      <button 
+        onClick={() => setParticipants(prev => Math.min(prev + 1, groupTarget))}
+        className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 rounded-lg text-sm shadow transition"
+      >
+        Rejoindre l'Achat Groupé ({groupPrice} FCFA)
+      </button>
+    </div>
+  );
+}

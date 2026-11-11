@@ -1,0 +1,52 @@
+'use client';
+
+import React, { useState } from 'react';
+
+export default function CheckoutPage() {
+  const [method, setMethod] = useState('tmoney');
+
+  return (
+    <div className="max-w-2xl mx-auto p-6 font-sans">
+      <h1 className="text-2xl font-extrabold text-gray-900 mb-6">Tunnel de Commande Sécurisé</h1>
+
+      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-6">
+        <div>
+          <h2 className="text-sm font-bold text-gray-700 uppercase mb-3">1. Récapitulatif de Commande</h2>
+          <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg text-sm">
+            <span>T-Shirt 100% Coton Premium (x50 pcs)</span>
+            <span className="font-bold">140 000 FCFA</span>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-sm font-bold text-gray-700 uppercase mb-3">2. Mode de Paiement Mobile / Banque</h2>
+          <div className="grid grid-cols-3 gap-3">
+            {['tmoney', 'flooz', 'card'].map((type) => (
+              <button
+                key={type}
+                type="button"
+                onClick={() => setMethod(type)}
+                className={`p-3 rounded-lg border text-xs font-bold uppercase transition ${
+                  method === type 
+                    ? 'border-blue-600 bg-blue-50 text-blue-700 ring-2 ring-blue-500' 
+                    : 'border-gray-200 hover:bg-gray-50'
+                }`}
+              >
+                {type === 'tmoney' && 'T-Money'}
+                {type === 'flooz' && 'Flooz'}
+                {type === 'card' && 'Carte Bancaire'}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button 
+          onClick={() => alert('Commande validée !')}
+          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md transition text-center"
+        >
+          Payer et Valider la Commande (Protection Acheteur Inclus)
+        </button>
+      </div>
+    </div>
+  );
+}

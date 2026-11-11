@@ -1,0 +1,52 @@
+import React, { useState } from 'react';
+
+export default function ChatWindow({ supplierName = "Usine Textile Lomé" }) {
+  const [messages, setMessages] = useState([
+    { id: 1, sender: 'supplier', text: 'Bonjour ! Comment puis-je vous aider pour votre commande de gros ?' }
+  ]);
+  const [input, setInput] = useState('');
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    setMessages(prev => [...prev, { id: Date.now(), sender: 'user', text: input }]);
+    setInput('');
+  };
+
+  return (
+    <div className="border border-gray-300 rounded-xl shadow-lg bg-white overflow-hidden max-w-md w-full">
+      <div className="bg-slate-900 text-white p-3 font-semibold text-sm flex justify-between items-center">
+        <span>💬 TradeManager - {supplierName}</span>
+        <span className="text-xs bg-emerald-500 px-2 py-0.5 rounded-full text-white">En ligne</span>
+      </div>
+
+      <div className="h-64 p-3 overflow-y-auto space-y-2 bg-slate-50 text-sm">
+        {messages.map(msg => (
+          <div 
+            key={msg.id} 
+            className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <span className={`p-2 rounded-lg max-w-[80%] ${
+              msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'
+            }`}>
+              {msg.text}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <form onSubmit={sendMessage} className="p-2 border-t flex gap-2">
+        <input 
+          type="text" 
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Négocier ou poser une question..."
+          className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button type="submit" className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded-lg font-semibold hover:bg-blue-700">
+          Envoyer
+        </button>
+      </form>
+    </div>
+  );
+}
